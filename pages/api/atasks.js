@@ -1,4 +1,7 @@
 import { apitask } from "../../data/Apitasks";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 export default function handler(req, res) {
   if (req.method === "GET") {

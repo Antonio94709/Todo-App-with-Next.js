@@ -11,7 +11,7 @@ export default function handler(req, res) {
       (atask) => atask.id === parseInt(ataskid)
     );
 
-    const index = apitask.findindex(
+    const index = apitask.findIndex(
       (apitas) => apitas.id === parseInt(ataskid)
     );
     apitask.splice(index, 1);

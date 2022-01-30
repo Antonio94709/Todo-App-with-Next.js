@@ -5,37 +5,27 @@ import { useState } from "react";
 import { apitask } from "../data/Apitasks";
 
 export default function Home() {
-  /*these states belong to the example*/
+  /*these states belong to the api routes*/
   const [apitasklist, setApitasklist] = useState([]);
-  const [apitaskli, setApiTaskli] = useState();
+  const [apitaskli, setApiTaskli] = useState("");
 
-  const [tasks, setTasks] = useState(["Code", "Eat ", "Buy bread"]);
-  const [Item, setItem] = useState("");
-
-  function removeItem(taskName) {
-    setTasks(
-      tasks.filter((task) => {
-        return task != taskName;
-      })
-    );
-  }
-  /*this delets infromation staored in the json or database using api routing*/
-  const removeApiTask = async (apitaskid) => {
-    const response = await fetch(`/api/aptasks/${apitaskid}`, {
+  /*this deletes infromation stored in the json or database using api routing*/
+  const removeApiTask = async (ataskid) => {
+    const response = await fetch(`/api/${ataskid}`, {
       method: `DELETE`,
     });
     const data = await response.json();
     console.log(data);
-    fetchApitasks();
+    submitTask();
   };
 
-  /*this is an api call exapmle to test is it works(get request)*/
+  /*this is an api call to get request*/
   const apiTask = async () => {
     const response = await fetch("/api/atasks");
     const data = await response.json();
     setApitasklist(data);
   };
-  /* this adds informtion inputed through input to json or a database e.g*/
+  /* this api route adds informtion entered through input to json or a database e.g*/
   const submitTask = async () => {
     const response = await fetch("api/atasks", {
       method: "POST",
@@ -47,17 +37,7 @@ export default function Home() {
     const data = await response.json();
     apiTask();
     console.log(data);
-  };
-
-  const AddItem = async () => {
-    const response = await fetch("/api/atasks");
-    const data = await response.json();
-    if (Item != "" && !tasks.includes(Item)) {
-      let temp = tasks;
-      temp.push(Item);
-      setTasks(temp);
-      setItem("");
-    }
+    setApiTaskli("");
   };
 
   return (
@@ -83,7 +63,7 @@ export default function Home() {
                 {task.text}
                 <button
                   onClick={() => {
-                    removeApiTask(task);
+                    removeApiTask(task.id);
                   }}
                   className="bg-black ml-7  white-text p-4 rounded"
                 >
