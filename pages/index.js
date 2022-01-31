@@ -9,20 +9,11 @@ export default function Home() {
   const [apitasklist, setApitasklist] = useState([]);
   const [apitaskli, setApiTaskli] = useState("");
 
-<<<<<<< HEAD
   //Use UseEffect Hook to get tasks on first mount
   useEffect(() => {
     console.log("Component has mounted!!!!");
     apiTask();
   }, []);
-=======
-
-  //Use UseEffect Hook to get tasks on first mount
-  useEffect(()=>{
-    console.log('Component has mounted!!!!');
-    apiTask();
-  },[])
->>>>>>> origin/apiroutes
 
   /*this deletes infromation stored in the json or database using api routing*/
   const removeApiTask = async (tasks) => {
@@ -42,13 +33,8 @@ export default function Home() {
   };
   /* this api route adds informtion entered through input to json or a database e.g*/
   const submitTask = async () => {
-<<<<<<< HEAD
     const response = await fetch("api/tasks", {
       //CHanged this to new route!!!
-=======
-
-    const response = await fetch("api/tasks", {  //CHanged this to new route!!!
->>>>>>> origin/apiroutes
       method: "POST",
       body: JSON.stringify({ apitaskli }),
       headers: {
