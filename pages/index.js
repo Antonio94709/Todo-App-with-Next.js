@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { apitask } from "../data/Apitasks";
 
 export default function Home() {
@@ -9,10 +9,16 @@ export default function Home() {
   const [apitasklist, setApitasklist] = useState([]);
   const [apitaskli, setApiTaskli] = useState("");
 
+  //Use UseEffect Hook to get tasks on first mount
+  useEffect(() => {
+    console.log("Component has mounted!!!!");
+    apiTask();
+  }, []);
+
   /*this deletes infromation stored in the json or database using api routing*/
-  const removeApiTask = async (ataskid) => {
-    const response = await fetch(`/api/${ataskid}`, {
-      method: `DELETE`,
+  const removeApiTask = async (tasks) => {
+    const response = await fetch(`/api/RemoveTasks/${tasks}`, {
+      method: "DELETE",
     });
     const data = await response.json();
     console.log(data);
@@ -21,13 +27,14 @@ export default function Home() {
 
   /*this is an api call to get request*/
   const apiTask = async () => {
-    const response = await fetch("/api/atasks");
+    const response = await fetch("/api/tasks"); //CHanged this to new route!!!
     const data = await response.json();
     setApitasklist(data);
   };
   /* this api route adds informtion entered through input to json or a database e.g*/
   const submitTask = async () => {
-    const response = await fetch("api/atasks", {
+    const response = await fetch("api/tasks", {
+      //CHanged this to new route!!!
       method: "POST",
       body: JSON.stringify({ apitaskli }),
       headers: {
@@ -62,9 +69,7 @@ export default function Home() {
               <li key={task.index} className="w-full border-t">
                 {task.text}
                 <button
-                  onClick={() => {
-                    removeApiTask(task.id);
-                  }}
+                  onClick={() => removeApiTask(task.id)}
                   className="bg-black ml-7  white-text p-4 rounded"
                 >
                   Remove item

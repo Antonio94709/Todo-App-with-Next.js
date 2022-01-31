@@ -1,0 +1,1 @@
+() => removeApiTask(task.id)
