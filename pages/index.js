@@ -1,13 +1,20 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { apitask } from "../data/Apitasks";
 
 export default function Home() {
   /*these states belong to the api routes*/
   const [apitasklist, setApitasklist] = useState([]);
   const [apitaskli, setApiTaskli] = useState("");
+
+
+  //Use UseEffect Hook to get tasks on first mount
+  useEffect(()=>{
+    console.log('Component has mounted!!!!');
+    apiTask();
+  },[])
 
   /*this deletes infromation stored in the json or database using api routing*/
   const removeApiTask = async (ataskid) => {
@@ -21,13 +28,14 @@ export default function Home() {
 
   /*this is an api call to get request*/
   const apiTask = async () => {
-    const response = await fetch("/api/atasks");
+    const response = await fetch("/api/tasks"); //CHanged this to new route!!!
     const data = await response.json();
     setApitasklist(data);
   };
   /* this api route adds informtion entered through input to json or a database e.g*/
   const submitTask = async () => {
-    const response = await fetch("api/atasks", {
+
+    const response = await fetch("api/tasks", {  //CHanged this to new route!!!
       method: "POST",
       body: JSON.stringify({ apitaskli }),
       headers: {
