@@ -16,13 +16,29 @@ export default function Home() {
   }, []);
 
   /*this deletes infromation stored in the json or database using api routing*/
-  const removeApiTask = async (tasks) => {
-    const response = await fetch(`/api/RemoveTasks/${tasks}`, {
+  const removeApiTask = async (id) => {
+    const response = await fetch(`/api/tasks/?taskId=${id}`, {
       method: "DELETE",
     });
     const data = await response.json();
+    //This holds the response from the delete process in api route
     console.log(data);
+    //If success then simply remove item from current state. No need to refetch all tasks from DB.
+    if(data.success){
+      //Filter current tasks and simply remove the one matching current ID
+      setApitasklist(apitasklist.filter((task) => task.id !== id));
+    }
   };
+
+  //Old -> see above
+  // const removeApiTask = async (tasks) => {
+  //   const response = await fetch(`/api/RemoveTasks/${tasks}`, {
+  //     method: "DELETE",
+  //   });
+  //   const data = await response.json();
+  //   console.log(data);
+  // };
+
 
   /*this is an api call to get request*/
   const apiTask = async () => {
@@ -62,10 +78,10 @@ export default function Home() {
         Add tasks
       </button>
       <ul className="m-4">
-        {apitasklist.map((task) => {
+        {apitasklist.map((task, i) => {
           return (
-            <div>
-              <li key={task.index} className="w-full border-t">
+            <div key={i}>
+              <li  className="w-full border-t">
                 {task.text}
                 <button
                   onClick={() => removeApiTask(task.id)}
